@@ -38,8 +38,21 @@
 <title>Almacenamiento Bodega</title>
 </head>
 <body>	
-<div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-center" style="background-color: #e3f2fd;">
+	<div class="nav justify-content-center">
+	  <a class="navbar-brand" href="#" style=" font-weight: bold;">Usuario Conectado : ${usuarioConectado}</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
 	
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <form class="form-inline my-2 my-lg-0" action="/logout" method="get">
+			<button class="btn btn-primary" type="submit">logout</button>
+	    </form>
+	  </div>
+	</div>
+</nav>
+<div class="container">
 	  <div class="form-row">
 	    <div class="form-group col-md-6">
 	      <label for="idprecio">Precio</label>
@@ -55,11 +68,6 @@
 	    <input type="text" class="form-control" id="idBodega" >
 	  </div>
 	  <button type="submit" class="btn btn-primary" id="idBtnGuardar">Agregar</button>
-		<div class="p-1">
-			<form action="/logout" method="get">
-				<button class="btn btn-primary" type="submit">logout</button>
-			</form>
-		</div>
 		
 </div>
 

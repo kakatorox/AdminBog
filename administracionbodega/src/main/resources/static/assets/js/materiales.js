@@ -1,6 +1,8 @@
 $(document).ready(function () {
     $('#table').bootstrapTable({        	
-        	url:'',
+        	type:"GET",
+		    url:"/material/materiales",
+		    dataType:"json",
             pagination: true,
             search: true,
             pageSize: 5,
@@ -9,7 +11,8 @@ $(document).ready(function () {
             columns: [ {
                 field: 'materialID',
                 title: 'ID',
-                width: '180px'
+                width: '180px',
+                visible:false
             },{
                 field: 'precio',
                 title: 'Precio',
@@ -42,43 +45,44 @@ function formatoFecha(fecha, formato) {
     return formato.replace(/dd|mm|yy|yyyy/gi, matched => map[matched])
 }
   
-$("#idBtnGuardar").click(function() {
-		var dataProducto = {
-							"precio": $("#idprecio").val(),
-							"nombre": $("#idNombre").val(),
-							"bodega": $("#idBodega").val(),
-							"fechaIngreso": formatoFecha(hoy, 'dd/mm/yy')
-						 };
-			$.ajax({
-				
-				data: JSON.stringify(dataProducto),
-				type: "POST",
-				contentType: "application/json",
-				url: '/material/materiales',
-				
-			})
-			.done(function(data, textStatus, jqXHR) {
-				
-					  $.ajax({
-		                    type:"GET",
-		                    url:"/material/materiales",
-		                    dataType:"json",
-		                    success: function(data) {
-		                        //si todo sale bien, se agrega la funcionalidad
-		                        console.log(data);
-		                        $('#table').bootstrapTable('load', data);
-		                    },
-		                    error: function(dataError) {
-		                        console.log(dataError);
-		                    },
-		                    async: true,
-	                	});
-	
-	                console.log("Termino");
-	         });
-
-			})
-			.fail(function(jqXHR, textStatus, errorThrown) {
-				console.log("La solicitud a fallado: ", errorThrown, textStatus, jqXHR);
-			});
+	$("#idBtnGuardar").click(function() {
+			var dataProducto = {
+								"precio": $("#idprecio").val(),
+								"nombre": $("#idNombre").val(),
+								"bodega": $("#idBodega").val(),
+								"fechaIngreso": formatoFecha(hoy, 'dd/mm/yy')
+							 };
+				$.ajax({
+					
+					data: JSON.stringify(dataProducto),
+					type: "POST",
+					contentType: "application/json",
+					url: '/material/materiales',
+					
+				})
+				.done(function(data, textStatus, jqXHR) {
+					
+						  $.ajax({
+			                    type:"GET",
+			                    url:"/material/materiales",
+			                    dataType:"json",
+			                    success: function(data) {
+			                        //si todo sale bien, se agrega la funcionalidad
+			                        console.log(data);
+			                        $('#table').bootstrapTable('load', data);
+			                        $('#table').bootstrapTable('refresh');
+			                    },
+			                    error: function(dataError) {
+			                        console.log(dataError);
+			                    },
+			                    async: true,
+		                	});
+		
+		                console.log("Termino");
+		         })
+				.fail(function(jqXHR, textStatus, errorThrown) {
+					console.log("La solicitud a fallado: ", errorThrown, textStatus, jqXHR);
+				})
+	});
+			
 });

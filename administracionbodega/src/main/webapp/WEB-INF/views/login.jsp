@@ -24,8 +24,8 @@
 
 </head>
 <body>
-<div class="container">
-	<div class="col-4 justify-content-center">
+<div class="container justify-content-center">
+	<div class="col-4 ">
 		<form action="/login" method="post">
 		  <div class="form-group">
 		    <label for="exampleInputEmail1">Usuario</label>

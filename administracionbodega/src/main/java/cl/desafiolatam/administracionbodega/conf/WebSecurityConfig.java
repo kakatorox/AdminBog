@@ -6,8 +6,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import cl.desafiolatam.administracionbodega.app.service.impl.AuthServiceImpl;
+
 
 
 @Configuration
@@ -18,17 +22,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		// TODO Auto-generated method stub
 		
 		
-		auth.inMemoryAuthentication().withUser("bodegon")
-									.password(passwordEncoder().encode("1234"))
-									.roles("BODEGA");
-		auth.inMemoryAuthentication().withUser("bodegin")
-									.password(passwordEncoder().encode("1234"))
-									.roles("BODEGA");
+//		auth.inMemoryAuthentication().withUser("bodegon")
+//									.password(passwordEncoder().encode("1234"))
+//									.roles("BODEGA");
+//		auth.inMemoryAuthentication().withUser("bodegin")
+//									.password(passwordEncoder().encode("1234"))
+//									.roles("BODEGA");
+		auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
 	}
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeHttpRequests()
-													 .antMatchers("/material/**").hasRole("BODEGA")
+													 .antMatchers("/material/**").hasAnyRole("ADMIN","CLIENT")
 													 .antMatchers("/login").permitAll()
 													 .anyRequest()
 													 .authenticated()
@@ -51,5 +56,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Bean
 	public AuthenticationSuccessHandler customAthenticationSuccessHandler() {
 		return new CustomAutentificationSuccessHandler();
+	}
+	
+	@Bean
+	public UserDetailsService userDetailsService() {
+		return new AuthServiceImpl();
 	}
 }

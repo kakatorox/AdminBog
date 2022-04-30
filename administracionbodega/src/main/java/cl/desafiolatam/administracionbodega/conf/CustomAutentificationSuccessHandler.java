@@ -18,7 +18,7 @@ public class CustomAutentificationSuccessHandler implements AuthenticationSucces
 		// TODO Auto-generated method stub
 		 Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 		 
-		 if (roles.contains("ROLE_BODEGA")) {
+		 if (roles.contains("ROLE_ADMIN") || roles.contains("ROLE_CLIENT")) {
 			response.sendRedirect("/material");
 		}
 	}
